@@ -19,6 +19,7 @@ python_library_host {
     srcs: [
         "*.py",
         "compiler/**/*.py",
+        "ctypes/**/*.py",
         "email/**/*.py",
         "encodings/**/*.py",
         "hotshot/**/*.py",
