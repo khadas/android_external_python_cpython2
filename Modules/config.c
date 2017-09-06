@@ -75,6 +75,7 @@ extern void initaudioop(void);
 extern void initresource(void);
 extern void init_multibytecodec(void);
 extern void init_multiprocessing(void);
+extern void initzlib(void);
 
 /* -- ADDMODULE MARKER 1 -- */
 
@@ -138,6 +139,7 @@ struct _inittab _PyImport_Inittab[] = {
     {"resource", initresource},
     {"_multibytecodec", init_multibytecodec},
     {"_multiprocessing", init_multiprocessing},
+    {"zlib", initzlib},
 
 /* -- ADDMODULE MARKER 2 -- */
 
