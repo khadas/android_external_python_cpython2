@@ -76,6 +76,10 @@ extern void initresource(void);
 extern void init_multibytecodec(void);
 extern void init_multiprocessing(void);
 extern void initzlib(void);
+extern void initpyexpat(void);
+extern void init_sqlite3(void);
+extern void init_ctypes(void);
+extern void init_ctypes_test(void);
 
 /* -- ADDMODULE MARKER 1 -- */
 
@@ -140,6 +144,10 @@ struct _inittab _PyImport_Inittab[] = {
     {"_multibytecodec", init_multibytecodec},
     {"_multiprocessing", init_multiprocessing},
     {"zlib", initzlib},
+    {"pyexpat", initpyexpat},
+    {"_sqlite3", init_sqlite3},
+    {"_ctypes", init_ctypes},
+    {"_ctypes_test", init_ctypes_test},
 
 /* -- ADDMODULE MARKER 2 -- */
 

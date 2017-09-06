@@ -39,7 +39,7 @@ cc_defaults {
        },
        linux_x86_64: {
            local_include_dirs: [
-               "linux_x86_64",
+               "linux_x86_64/pyconfig",
            ],
        },
        windows: {
@@ -249,9 +249,21 @@ cc_binary {
         "py2-c-module-audioop",
         "py2-c-module-resource",
         "py2-c-module-_multibytecodec",
+        "py2-c-module-_codecs_kr",
+        "py2-c-module-_codecs_jp",
+        "py2-c-module-_codecs_cn",
+        "py2-c-module-_codecs_tw",
+        "py2-c-module-_codecs_hk",
+        "py2-c-module-_codecs_iso2022",
         "py2-c-module-_multiprocessing",
         "py2-c-module-zlib",
+        "py2-c-module-pyexpat",
+        "py2-c-module-_sqlite3",
+        "py2-c-module-_ctypes_test",
+        "py2-c-module-_ctypes",
         "libz",
+        "libexpat",
+        "libsqlite",
     ],
     host_ldlibs: [
         "-lpthread",
@@ -607,6 +619,42 @@ cc_library_static {
 }
 
 cc_library_static {
+    name: "py2-c-module-_codecs_kr",
+    defaults: ["py2-interp-defaults"],
+    srcs: ["Modules/cjkcodecs/_codecs_kr.c"],
+}
+
+cc_library_static {
+    name: "py2-c-module-_codecs_jp",
+    defaults: ["py2-interp-defaults"],
+    srcs: ["Modules/cjkcodecs/_codecs_jp.c"],
+}
+
+cc_library_static {
+    name: "py2-c-module-_codecs_cn",
+    defaults: ["py2-interp-defaults"],
+    srcs: ["Modules/cjkcodecs/_codecs_cn.c"],
+}
+
+cc_library_static {
+    name: "py2-c-module-_codecs_tw",
+    defaults: ["py2-interp-defaults"],
+    srcs: ["Modules/cjkcodecs/_codecs_tw.c"],
+}
+
+cc_library_static {
+    name: "py2-c-module-_codecs_hk",
+    defaults: ["py2-interp-defaults"],
+    srcs: ["Modules/cjkcodecs/_codecs_hk.c"],
+}
+
+cc_library_static {
+    name: "py2-c-module-_codecs_iso2022",
+    defaults: ["py2-interp-defaults"],
+    srcs: ["Modules/cjkcodecs/_codecs_iso2022.c"],
+}
+
+cc_library_static {
     name: "py2-c-module-_multiprocessing",
     defaults: ["py2-interp-defaults"],
     srcs: [
@@ -630,4 +678,95 @@ cc_library_static {
     static_libs: [
         "libz",
     ],
+}
+
+cc_library_static {
+    name: "py2-c-module-pyexpat",
+    defaults: [
+        "py2-interp-defaults",
+    ],
+    cflags: [
+        "-DUSE_PYEXPAT_CAPI",
+    ],
+    srcs: [
+        "Modules/pyexpat.c",
+    ],
+    static_libs: [
+        "libexpat",
+    ],
+}
+
+cc_library_static {
+    name: "py2-c-module-_sqlite3",
+    defaults: [
+        "py2-interp-defaults",
+    ],
+    cflags: [
+        "-DMODULE_NAME=\"sqlite3\"",
+        "-DSQLITE_OMIT_LOAD_EXTENSION",
+        "-Wno-format-security",
+        "-Wno-type-limits",
+        "-Wno-char-subscripts",
+    ],
+    local_include_dirs: [
+        "Modules/_sqlite",
+    ],
+    srcs: [
+        "Modules/_sqlite/cache.c",
+        "Modules/_sqlite/connection.c",
+        "Modules/_sqlite/cursor.c",
+        "Modules/_sqlite/microprotocols.c",
+        "Modules/_sqlite/module.c",
+        "Modules/_sqlite/prepare_protocol.c",
+        "Modules/_sqlite/row.c",
+        "Modules/_sqlite/statement.c",
+        "Modules/_sqlite/util.c",
+    ],
+    static_libs: [
+        "libsqlite",
+    ],
+}
+
+cc_library_static {
+    name: "py2-c-module-_ctypes_test",
+    defaults: ["py2-interp-defaults"],
+    srcs: ["Modules/_ctypes/_ctypes_test.c"],
+}
+
+// linux_x86_64/libffi contains the auto-generated ffi files.
+// How to re-generate ffi files?
+// .Modules/_ctypes/libffi/configure; \
+// cp build/temp.linux-x86_64-2.7/libffi/include/ffi.h linux_x86_64/libffi/ffi.h; \
+// cp build/temp.linux-x86_64-2.7/libffi/fficonfig.h linux_x86_64/libffi/fficonfig.h;
+cc_library_static {
+    name: "py2-c-module-_ctypes",
+    defaults: [
+        "py2-interp-defaults",
+    ],
+    local_include_dirs: [
+        "linux_x86_64/libffi",
+        "Modules/_ctypes/libffi/include",
+    ],
+    srcs: [
+        "Modules/_ctypes/_ctypes.c",
+        "Modules/_ctypes/callbacks.c",
+        "Modules/_ctypes/callproc.c",
+        "Modules/_ctypes/stgdict.c",
+        "Modules/_ctypes/cfield.c",
+        "Modules/_ctypes/libffi/src/prep_cif.c",
+        "Modules/_ctypes/libffi/src/closures.c",
+    ],
+    arch: {
+        x86_64: {
+            local_include_dirs: [
+                "Modules/_ctypes/libffi/src/x86",
+            ],
+            srcs: [
+                "Modules/_ctypes/libffi/src/x86/ffi64.c",
+                "Modules/_ctypes/libffi/src/x86/unix64.S",
+                "Modules/_ctypes/libffi/src/x86/ffi.c",
+                "Modules/_ctypes/libffi/src/x86/sysv.S",
+            ],
+        },
+    },
 }
