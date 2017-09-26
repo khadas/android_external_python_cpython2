@@ -45,21 +45,23 @@ python_library_host {
         },
     },
     target: {
-       darwin: {
-           enabled: false,
-       },
-       linux_x86_64: {
-           srcs: [
-               ":py2-plat-linux2",
-           ],
-       },
+        darwin: {
+            srcs: [":py2-plat-darwin"],
+        },
+        linux_x86_64: {
+            srcs: [":py2-plat-linux2"],
+        },
     },
 }
 
 filegroup {
+    name: "py2-plat-darwin",
+    srcs: ["plat-darwin/*.py"],
+    path: "plat-darwin",
+}
+
+filegroup {
     name: "py2-plat-linux2",
-    srcs: [
-        "plat-linux2/*.py",
-    ],
+    srcs: ["plat-linux2/*.py"],
     path: "plat-linux2",
 }
