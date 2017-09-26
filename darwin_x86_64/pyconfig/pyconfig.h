@@ -285,7 +285,8 @@
 #define HAVE_GETC_UNLOCKED 1
 
 /* Define to 1 if you have the `getentropy' function. */
-#define HAVE_GETENTROPY 1
+/* OSX 10.10 SDK does not have sys/random.h */
+/* #undef HAVE_GETENTROPY */
 
 /* Define to 1 if you have the `getgroups' function. */
 #define HAVE_GETGROUPS 1
