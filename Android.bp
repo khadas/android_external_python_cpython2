@@ -34,17 +34,16 @@ cc_defaults {
     ],
     local_include_dirs: ["Include"],
     target: {
-       darwin: {
-           enabled: false,
-       },
-       linux_x86_64: {
-           local_include_dirs: [
-               "linux_x86_64/pyconfig",
-           ],
-       },
-       windows: {
-           enabled: false,
-       },
+        // Regenerate include dirs with android_regen.sh
+        darwin_x86_64: {
+            local_include_dirs: ["darwin_x86_64/pyconfig"],
+        },
+        linux_x86_64: {
+            local_include_dirs: ["linux_x86_64/pyconfig"],
+        },
+        windows: {
+            enabled: false,
+        },
     },
     host_supported: true,
     device_supported: false,
@@ -266,11 +265,13 @@ cc_binary {
         "libsqlite",
     ],
     host_ldlibs: [
-        "-lpthread",
-        "-ldl",
-        "-lutil",
-        "-lm"
+        "-lm",
     ],
+    target: {
+        linux_x86_64: {
+            host_ldlibs: ["-lutil"],
+        },
+    },
 }
 
 // Enabled extension py2-c-modules.
@@ -733,18 +734,12 @@ cc_library_static {
     srcs: ["Modules/_ctypes/_ctypes_test.c"],
 }
 
-// linux_x86_64/libffi contains the auto-generated ffi files.
-// How to re-generate ffi files?
-// .Modules/_ctypes/libffi/configure; \
-// cp build/temp.linux-x86_64-2.7/libffi/include/ffi.h linux_x86_64/libffi/ffi.h; \
-// cp build/temp.linux-x86_64-2.7/libffi/fficonfig.h linux_x86_64/libffi/fficonfig.h;
 cc_library_static {
     name: "py2-c-module-_ctypes",
     defaults: [
         "py2-interp-defaults",
     ],
     local_include_dirs: [
-        "linux_x86_64/libffi",
         "Modules/_ctypes/libffi/include",
     ],
     srcs: [
@@ -763,9 +758,24 @@ cc_library_static {
             ],
             srcs: [
                 "Modules/_ctypes/libffi/src/x86/ffi64.c",
-                "Modules/_ctypes/libffi/src/x86/unix64.S",
                 "Modules/_ctypes/libffi/src/x86/ffi.c",
                 "Modules/_ctypes/libffi/src/x86/sysv.S",
+            ],
+        },
+    },
+    target: {
+        // Regenerate include dirs with android_regen.sh
+        darwin_x86_64: {
+            local_include_dirs: ["darwin_x86_64/libffi"],
+            srcs: [
+                "Modules/_ctypes/libffi/src/x86/darwin.S",
+                "Modules/_ctypes/libffi/src/x86/darwin64.S",
+            ],
+        },
+        linux_x86_64: {
+            local_include_dirs: ["linux_x86_64/libffi"],
+            srcs: [
+                "Modules/_ctypes/libffi/src/x86/unix64.S",
             ],
         },
     },
