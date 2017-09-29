@@ -264,9 +264,6 @@ cc_binary {
         "libexpat",
         "libsqlite",
     ],
-    host_ldlibs: [
-        "-lm",
-    ],
     target: {
         linux_x86_64: {
             host_ldlibs: ["-lutil"],
