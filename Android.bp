@@ -38,7 +38,7 @@ cc_defaults {
         darwin_x86_64: {
             local_include_dirs: ["darwin_x86_64/pyconfig"],
         },
-        linux_x86_64: {
+        linux_glibc_x86_64: {
             local_include_dirs: ["linux_x86_64/pyconfig"],
         },
         windows: {
@@ -265,7 +265,7 @@ cc_binary {
         "libsqlite",
     ],
     target: {
-        linux_x86_64: {
+        linux_glibc_x86_64: {
             host_ldlibs: ["-lutil"],
         },
     },
@@ -769,7 +769,7 @@ cc_library_static {
                 "Modules/_ctypes/libffi/src/x86/darwin64.S",
             ],
         },
-        linux_x86_64: {
+        linux_glibc_x86_64: {
             local_include_dirs: ["linux_x86_64/libffi"],
             srcs: [
                 "Modules/_ctypes/libffi/src/x86/unix64.S",
