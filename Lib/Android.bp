@@ -48,7 +48,7 @@ python_library_host {
         darwin: {
             srcs: [":py2-plat-darwin"],
         },
-        linux_x86_64: {
+        linux_glibc_x86_64: {
             srcs: [":py2-plat-linux2"],
         },
     },
