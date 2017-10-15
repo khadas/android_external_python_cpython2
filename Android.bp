@@ -24,6 +24,8 @@ cc_defaults {
         "-Wall",
         "-Wstrict-prototypes",
         "-DPy_BUILD_CORE",
+        "-Wno-error=invalid-source-encoding",
+        "-Wno-error=macro-redefined",
         "-Wno-missing-field-initializers",
         "-Wno-shift-count-overflow",
         "-Wno-sign-compare",
@@ -37,9 +39,11 @@ cc_defaults {
         // Regenerate include dirs with android_regen.sh
         darwin_x86_64: {
             local_include_dirs: ["darwin_x86_64/pyconfig"],
+            // cflags: ["-Werror"], // still has warnings on darwin
         },
         linux_glibc_x86_64: {
             local_include_dirs: ["linux_x86_64/pyconfig"],
+            cflags: ["-Werror"],
         },
         windows: {
             enabled: false,
