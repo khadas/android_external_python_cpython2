@@ -39,7 +39,10 @@ cc_defaults {
         // Regenerate include dirs with android_regen.sh
         darwin_x86_64: {
             local_include_dirs: ["darwin_x86_64/pyconfig"],
-            // cflags: ["-Werror"], // still has warnings on darwin
+            cflags: [
+                "-Wno-deprecated-declarations",
+                "-Wno-pointer-arith",
+            ],
         },
         linux_glibc_x86_64: {
             local_include_dirs: ["linux_x86_64/pyconfig"],
