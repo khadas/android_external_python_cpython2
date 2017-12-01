@@ -36,7 +36,7 @@ PyObject *get_data(const char *archive, PyObject *toc_entry);
 namespace android {
 namespace cpython2 {
 namespace python_launcher {
-namespace internal {
+namespace internal{
 
 int RunModule(const char *module, int set_argv0) {
   PyObject *runpy, *runmodule, *runargs, *result;
