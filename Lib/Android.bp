@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-python_library_host {
+python_library {
     name: "py2-stdlib",
     is_internal: true,
     pkg_path: "stdlib",
@@ -48,10 +48,11 @@ python_library_host {
         darwin: {
             srcs: [":py2-plat-darwin"],
         },
-        linux_glibc_x86_64: {
+        linux: {
             srcs: [":py2-plat-linux2"],
         },
     },
+    host_supported: true,
 }
 
 filegroup {
