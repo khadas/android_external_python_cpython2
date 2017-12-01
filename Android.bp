@@ -24,7 +24,6 @@ cc_defaults {
         "-Wall",
         "-Wstrict-prototypes",
         "-DPy_BUILD_CORE",
-        "-Werror",
         "-Wno-error=invalid-source-encoding",
         "-Wno-error=macro-redefined",
         "-Wno-missing-field-initializers",
@@ -37,31 +36,13 @@ cc_defaults {
     ],
     local_include_dirs: ["Include"],
     target: {
-        android_arm: {
-            local_include_dirs: ["android_arm/pyconfig"],
-        },
-        android_arm64: {
-            local_include_dirs: ["android_arm64/pyconfig"],
-        },
-        android_x86: {
-            local_include_dirs: ["android_x86/pyconfig"],
-        },
-        android_x86_64: {
-            local_include_dirs: ["android_x86_64/pyconfig"],
-        },
         // Regenerate include dirs with android_regen.sh
-        darwin_x86: {
-            enabled: false,
-        },
         darwin_x86_64: {
             local_include_dirs: ["darwin_x86_64/pyconfig"],
             cflags: [
                 "-Wno-deprecated-declarations",
                 "-Wno-pointer-arith",
             ],
-        },
-        linux_glibc_x86: {
-            enabled: false,
         },
         linux_glibc_x86_64: {
             local_include_dirs: ["linux_x86_64/pyconfig"],
@@ -72,15 +53,8 @@ cc_defaults {
         },
     },
     host_supported: true,
-    compile_multilib: "both",
-    multilib: {
-        lib32: {
-            suffix: "32",
-        },
-        lib64: {
-            suffix: "64",
-        },
-    },
+    device_supported: false,
+    compile_multilib: "64",
 }
 
 cc_library_static {
@@ -209,8 +183,6 @@ cc_binary {
         "-DPREFIX=\"\"",
         "-DEXEC_PREFIX=\"\"",
         "-DPYTHONPATH=\"\"",
-        "-DDATE=\"xx/xx/xx\"",
-        "-DTIME=\"xx:xx:xx\"",
     ],
     srcs: [
         "Launcher/launcher_main.cpp",
@@ -297,20 +269,11 @@ cc_binary {
         "py2-c-module-_ctypes",
         "libz",
         "libexpat",
+        "libsqlite",
     ],
     target: {
         linux_glibc_x86_64: {
             host_ldlibs: ["-lutil"],
-            static_libs: [
-                "libsqlite",
-            ],
-        },
-        // Use shared libsqlite for device side, otherwise
-        // the executable size will be really huge.
-        android: {
-            shared_libs: [
-                "libsqlite",
-            ]
         },
     },
 }
@@ -764,18 +727,9 @@ cc_library_static {
         "Modules/_sqlite/statement.c",
         "Modules/_sqlite/util.c",
     ],
-    target: {
-        linux_glibc_x86_64: {
-            static_libs: [
-                "libsqlite",
-            ],
-        },
-        android: {
-            shared_libs: [
-                "libsqlite",
-            ]
-        },
-    },
+    static_libs: [
+        "libsqlite",
+    ],
 }
 
 cc_library_static {
@@ -812,38 +766,6 @@ cc_library_static {
                 "Modules/_ctypes/libffi/src/x86/sysv.S",
             ],
         },
-        x86: {
-            local_include_dirs: [
-                "Modules/_ctypes/libffi/src/x86",
-            ],
-            srcs: [
-                "Modules/_ctypes/libffi/src/x86/ffi.c",
-                "Modules/_ctypes/libffi/src/x86/sysv.S",
-            ],
-        },
-        arm: {
-            local_include_dirs: [
-                "android_arm/libffi",
-                "Modules/_ctypes/libffi/src/arm",
-            ],
-            srcs: [
-                "Modules/_ctypes/libffi/src/arm/ffi.c",
-                "Modules/_ctypes/libffi/src/arm/sysv.S",
-                "Modules/_ctypes/libffi/src/arm/trampoline.S",
-            ]
-        },
-        arm64: {
-            // arithmetic on a pointer in _ctypes/libffi/src/aarch64/ffi.c
-            cflags: ["-Wno-pointer-arith"],
-            local_include_dirs: [
-                "android_arm64/libffi",
-                "Modules/_ctypes/libffi/src/aarch64",
-            ],
-            srcs: [
-                "Modules/_ctypes/libffi/src/aarch64/ffi.c",
-                "Modules/_ctypes/libffi/src/aarch64/sysv.S",
-            ]
-        },
     },
     target: {
         // Regenerate include dirs with android_regen.sh
@@ -856,18 +778,6 @@ cc_library_static {
         },
         linux_glibc_x86_64: {
             local_include_dirs: ["linux_x86_64/libffi"],
-            srcs: [
-                "Modules/_ctypes/libffi/src/x86/unix64.S",
-            ],
-        },
-        android_x86: {
-            local_include_dirs: ["android_x86/libffi"],
-            srcs: [
-                "Modules/_ctypes/libffi/src/x86/win32.S",
-            ],
-        },
-        android_x86_64: {
-            local_include_dirs: ["android_x86_64/libffi"],
             srcs: [
                 "Modules/_ctypes/libffi/src/x86/unix64.S",
             ],
