@@ -152,6 +152,18 @@ cc_library_static {
 cc_library_static {
     name: "py2-interp-python",
     defaults: ["py2-interp-defaults"],
+    target: {
+        linux: {
+            cflags: [
+                "-DPLATFORM=\"linux2\"",
+            ],
+        },
+        darwin_x86_64: {
+            cflags: [
+                "-DPLATFORM=\"darwin\"",
+            ],
+        },
+    },
     srcs: [
         "Python/_warnings.c",
         "Python/Python-ast.c",
@@ -315,7 +327,7 @@ cc_binary {
         android: {
             shared_libs: [
                 "libsqlite",
-            ]
+            ],
         },
     },
 }
