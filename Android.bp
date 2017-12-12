@@ -27,6 +27,7 @@ cc_defaults {
         "-Werror",
         "-Wno-error=invalid-source-encoding",
         "-Wno-error=macro-redefined",
+        "-Wno-int-conversion",
         "-Wno-missing-field-initializers",
         "-Wno-shift-count-overflow",
         "-Wno-sign-compare",
