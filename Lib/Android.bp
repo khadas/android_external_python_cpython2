@@ -28,6 +28,7 @@ python_library {
         "logging/**/*.py",
         "multiprocessing/**/*.py",
         "pydoc_data/**/*.py",
+        "sqlite3/**/*.py",
         "unittest/**/*.py",
         "wsgiref/**/*.py",
         "xml/**/*.py",
