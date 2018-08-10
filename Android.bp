@@ -222,8 +222,8 @@ cc_binary {
         "-DPREFIX=\"\"",
         "-DEXEC_PREFIX=\"\"",
         "-DPYTHONPATH=\"\"",
-        "-DDATE=\"xx/xx/xx\"",
-        "-DTIME=\"xx:xx:xx\"",
+        "-DDATE=\"Dec 31 1969\"",
+        "-DTIME=\"23:59:59\"",
     ],
     srcs: [
         "Launcher/launcher_main.cpp",
