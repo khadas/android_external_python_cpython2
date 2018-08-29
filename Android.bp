@@ -51,9 +51,6 @@ cc_defaults {
             local_include_dirs: ["android_x86_64/pyconfig"],
         },
         // Regenerate include dirs with android_regen.sh
-        darwin_x86: {
-            enabled: false,
-        },
         darwin_x86_64: {
             local_include_dirs: ["darwin_x86_64/pyconfig"],
             cflags: [
