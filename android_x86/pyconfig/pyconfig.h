@@ -35,7 +35,7 @@
 /* #undef DOUBLE_IS_LITTLE_ENDIAN_IEEE754 */
 
 /* Define if --enable-ipv6 is specified */
-/* #undef ENABLE_IPV6 */
+#define ENABLE_IPV6
 
 /* Define if flock needs to be linked with bsd library. */
 /* #undef FLOCK_NEEDS_LIBBSD */
@@ -273,7 +273,7 @@
 /* #define HAVE_GCC_ASM_FOR_X87 1 */
 
 /* Define if you have the getaddrinfo function. */
-/* #undef HAVE_GETADDRINFO */
+#define HAVE_GETADDRINFO 1
 
 /* Define to 1 if you have the `getcwd' function. */
 #define HAVE_GETCWD 1
