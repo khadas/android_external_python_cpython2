@@ -25,7 +25,6 @@ namespace python_launcher {
 
 namespace internal{
 #define ENTRYPOINT_FILE "entry_point.txt"
-#define RUNFILES "runfiles"
 
 // Use "runpy" module to locate and run Python script using Python module
 // namespace rather than the filesystem.
