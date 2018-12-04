@@ -105,20 +105,6 @@ std::string GetEntryPointFilePath(const char *launcher_path) {
   Py_DECREF(py_data);
   Py_DECREF(files);
 
-  int i = 0;
-  /* Strip newline and other trailing whitespace. */
-  for (i = strlen(res) - 1; i >= 0 && isspace(res[i]); i--) {
-    res[i] = '\0';
-  }
-  /* Check for the file extension. */
-  i = strlen(res);
-  if (i > 3 && strcmp(res + i - 3, ".py") == 0) {
-    res[i - 3] = '\0';
-  } else {
-    PyErr_Format(PyExc_ValueError, "Invalid entrypoint in %s: %s",
-                 ENTRYPOINT_FILE, res);
-    return std::string();
-  }
   return std::string(res);
 }
 
@@ -128,23 +114,8 @@ int RunModuleNameFromEntryPoint(const char *launcher_path, std::string entrypoin
   }
   // Has to pass to free to avoid a memory leak after use.
   char *arr = strdup(entrypoint.c_str());
-  // Replace file system path seperator with Python package/module seperator.
-  char *ch;
-  for (ch = arr; *ch; ch++) {
-    if (*ch == '/') {
-      *ch = '.';
-    }
-  }
 
   if (AddPathToPythonSysPath(launcher_path) < 0) {
-    free(arr);
-    return -1;
-  }
-  // Calculate the runfiles path size. Extra space for '\0'.
-  size_t size = snprintf(nullptr, 0, "%s/%s", launcher_path, RUNFILES) + 1;
-  char runfiles_path[size];
-  snprintf(runfiles_path, size, "%s/%s", launcher_path, RUNFILES);
-  if (AddPathToPythonSysPath(runfiles_path) < 0) {
     free(arr);
     return -1;
   }
