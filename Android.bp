@@ -29,6 +29,7 @@ cc_defaults {
         "-Wno-error=macro-redefined",
         "-Wno-int-conversion",
         "-Wno-missing-field-initializers",
+        "-Wno-null-pointer-arithmetic",
         "-Wno-register",
         "-Wno-shift-count-overflow",
         "-Wno-sign-compare",
