@@ -474,7 +474,7 @@
 #define HAVE_MEMORY_H 1
 
 /* Define to 1 if you have the `mkfifo' function. */
-/* #undef HAVE_MKFIFO */
+#define HAVE_MKFIFO  1
 
 /* Define to 1 if you have the `mknod' function. */
 #define HAVE_MKNOD 1
