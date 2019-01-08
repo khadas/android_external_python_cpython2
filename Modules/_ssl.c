@@ -591,7 +591,9 @@ newPySSLSocket(PySSLContext *sslctx, PySocketSockObject *sock,
     Py_INCREF(sslctx);
 
     /* Make sure the SSL error state is initialized */
+#ifndef OPENSSL_IS_BORINGSSL
     (void) ERR_get_state();
+#endif
     ERR_clear_error();
 
     PySSL_BEGIN_ALLOW_THREADS

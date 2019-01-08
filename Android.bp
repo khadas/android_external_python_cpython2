@@ -277,6 +277,7 @@ cc_binary {
         "py2-c-module-_csv",
         "py2-c-module-_socket",
         "py2-c-module-termios",
+        "py2-c-module-_ssl",
         "py2-c-module-_md5",
         "py2-c-module-_sha",
         "py2-c-module-_sha256",
@@ -307,8 +308,10 @@ cc_binary {
         "py2-c-module-_sqlite3",
         "py2-c-module-_ctypes_test",
         "py2-c-module-_ctypes",
-        "libz",
+        "libcrypto",
         "libexpat",
+        "libssl",
+        "libz",
     ],
     target: {
         linux_glibc_x86_64: {
@@ -527,6 +530,17 @@ cc_library_static {
     defaults: ["py2-interp-defaults"],
     srcs: [
         "Modules/termios.c",
+    ],
+}
+
+cc_library_static {
+    name: "py2-c-module-_ssl",
+    defaults: ["py2-interp-defaults"],
+    srcs: ["Modules/_ssl.c"],
+    cflags: ["-Wno-incompatible-pointer-types-discards-qualifiers"],
+    static_libs: [
+        "libssl",
+        "libcrypto",
     ],
 }
 
