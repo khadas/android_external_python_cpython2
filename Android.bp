@@ -225,7 +225,6 @@ cc_binary {
     ],
     srcs: [
         "Launcher/launcher_main.cpp",
-        "Launcher/launcher_internal.cpp",
         "Modules/gcmodule.c",
         "Modules/getpath.c",
         "Modules/config.c",
@@ -241,9 +240,7 @@ cc_binary {
         "Modules/_weakref.c",
         "Modules/zipimport.c",
         "Modules/symtablemodule.c",
-    ],
-    local_include_dirs: [
-        "Launcher",
+        "Modules/main.c",
     ],
     // NOTE: Please update Modules/config.c if new lib get added in the static_libs.
     static_libs: [
@@ -315,21 +312,14 @@ cc_binary {
     target: {
         linux_glibc_x86_64: {
             host_ldlibs: ["-lutil"],
-            static_libs: [
-                "libsqlite",
-            ],
         },
-        darwin_x86_64: {
-            static_libs: [
-                "libsqlite",
-            ],
+        host: {
+            static_libs: ["libsqlite"],
         },
         // Use shared libsqlite for device side, otherwise
         // the executable size will be really huge.
         android: {
-            shared_libs: [
-                "libsqlite",
-            ],
+            shared_libs: ["libsqlite"],
         },
     },
 }
