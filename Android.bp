@@ -25,8 +25,7 @@ cc_defaults {
         "-Wstrict-prototypes",
         "-DPy_BUILD_CORE",
         "-Werror",
-        "-Wno-error=invalid-source-encoding",
-        "-Wno-error=macro-redefined",
+        "-Wno-invalid-source-encoding",
         "-Wno-int-conversion",
         "-Wno-missing-field-initializers",
         "-Wno-null-pointer-arithmetic",
@@ -809,7 +808,7 @@ cc_library_static {
         android: {
             shared_libs: [
                 "libsqlite",
-            ]
+            ],
         },
     },
 }
@@ -866,7 +865,7 @@ cc_library_static {
                 "Modules/_ctypes/libffi/src/arm/ffi.c",
                 "Modules/_ctypes/libffi/src/arm/sysv.S",
                 "Modules/_ctypes/libffi/src/arm/trampoline.S",
-            ]
+            ],
         },
         arm64: {
             // arithmetic on a pointer in _ctypes/libffi/src/aarch64/ffi.c
@@ -878,7 +877,7 @@ cc_library_static {
             srcs: [
                 "Modules/_ctypes/libffi/src/aarch64/ffi.c",
                 "Modules/_ctypes/libffi/src/aarch64/sysv.S",
-            ]
+            ],
         },
     },
     target: {
