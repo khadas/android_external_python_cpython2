@@ -42,6 +42,9 @@ int main(int argc, char *argv[]) {
   // android::base::GetExecutablePath() also handles for Darwin/Windows.
   std::string executable_path = android::base::GetExecutablePath();
 
+  // Set the equivalent of PYTHONHOME internally.
+  Py_SetPythonHome(strdup(executable_path.c_str()));
+
   int new_argc = argc + 1;
   char **new_argv = reinterpret_cast<char**>(calloc(new_argc, sizeof(*argv)));
 
