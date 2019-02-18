@@ -20,6 +20,7 @@ python_library {
         "*.py",
         "compiler/**/*.py",
         "ctypes/**/*.py",
+        "distutils/**/*.py",
         "email/**/*.py",
         "encodings/**/*.py",
         "hotshot/**/*.py",

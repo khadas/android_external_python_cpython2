@@ -32,8 +32,12 @@ int main(int argc, char *argv[]) {
   // everything's supposed to be hermetic.
   Py_NoUserSiteDirectory = 1;
 
-  // Ignore PYTHONPATH and PYTHONHOME from the environment.
+  // Ignore PYTHONPATH and PYTHONHOME from the environment. Unless we're not
+  // running from inside the zip file, in which case the user may have
+  // specified a PYTHONPATH.
+#ifdef ANDROID_AUTORUN
   Py_IgnoreEnvironmentFlag = 1;
+#endif
 
   Py_DontWriteBytecodeFlag = 1;
 
@@ -45,17 +49,20 @@ int main(int argc, char *argv[]) {
   // Set the equivalent of PYTHONHOME internally.
   Py_SetPythonHome(strdup(executable_path.c_str()));
 
-  int new_argc = argc + 1;
-  char **new_argv = reinterpret_cast<char**>(calloc(new_argc, sizeof(*argv)));
+#ifdef ANDROID_AUTORUN
+  argc += 1;
+  char **new_argv = reinterpret_cast<char**>(calloc(argc, sizeof(*argv)));
 
   // Inject the path to our binary into argv[1] so the Py_Main won't parse any
   // other options, and will execute the __main__.py script inside the zip file
   // attached to our executable.
   new_argv[0] = argv[0];
   new_argv[1] = strdup(executable_path.c_str());
-  for (int i = 1; i < argc; i++) {
+  for (int i = 1; i < argc - 1; i++) {
     new_argv[i+1] = argv[i];
   }
+  argv = new_argv;
+#endif
 
-  return Py_Main(new_argc, new_argv);
+  return Py_Main(argc, argv);
 }
