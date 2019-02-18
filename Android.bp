@@ -211,8 +211,8 @@ cc_library_static {
     ],
 }
 
-cc_binary {
-    name: "py2-launcher",
+cc_defaults {
+    name: "py2-launcher-defaults",
     defaults: ["py2-interp-defaults"],
     cflags: [
         "-DVERSION=\"2.7\"",
@@ -226,8 +226,32 @@ cc_binary {
         "-DDATE=\"Dec 31 1969\"",
         "-DTIME=\"23:59:59\"",
     ],
+    static_libs: [
+        "libbase",
+        "libcrypto",
+        "libexpat",
+        "libssl",
+        "libz",
+    ],
+    target: {
+        linux_glibc_x86_64: {
+            host_ldlibs: ["-lutil"],
+        },
+        host: {
+            static_libs: ["libsqlite"],
+        },
+        // Use shared libsqlite for device side, otherwise
+        // the executable size will be really huge.
+        android: {
+            shared_libs: ["libsqlite"],
+        },
+    },
+}
+
+cc_library_static {
+    name: "py2-launcher-lib",
+    defaults: ["py2-launcher-defaults"],
     srcs: [
-        "Launcher/launcher_main.cpp",
         "Modules/gcmodule.c",
         "Modules/getpath.c",
         "Modules/config.c",
@@ -246,8 +270,7 @@ cc_binary {
         "Modules/main.c",
     ],
     // NOTE: Please update Modules/config.c if new lib get added in the static_libs.
-    static_libs: [
-        "libbase",
+    whole_static_libs: [
         // Be careful the order of these three static libraries below due to
         // missing symbols issues.
         "py2-interp-object",
@@ -307,22 +330,34 @@ cc_binary {
         "py2-c-module-_sqlite3",
         "py2-c-module-_ctypes_test",
         "py2-c-module-_ctypes",
-        "libcrypto",
-        "libexpat",
-        "libssl",
-        "libz",
     ],
-    target: {
-        linux_glibc_x86_64: {
-            host_ldlibs: ["-lutil"],
+}
+
+cc_binary {
+    name: "py2-launcher",
+    defaults: ["py2-launcher-defaults"],
+    srcs: ["Launcher/launcher_main.cpp"],
+    static_libs: ["py2-launcher-lib"],
+}
+
+cc_binary {
+    name: "py2-launcher-autorun",
+    defaults: ["py2-launcher-defaults"],
+    srcs: ["Launcher/launcher_main.cpp"],
+    static_libs: ["py2-launcher-lib"],
+    cflags: ["-DANDROID_AUTORUN"],
+}
+
+python_binary_host {
+    name: "py2-cmd",
+    autorun: false,
+    version: {
+        py2: {
+            enabled: true,
+            embedded_launcher: true,
         },
-        host: {
-            static_libs: ["libsqlite"],
-        },
-        // Use shared libsqlite for device side, otherwise
-        // the executable size will be really huge.
-        android: {
-            shared_libs: ["libsqlite"],
+        py3: {
+            enabled: false,
         },
     },
 }
