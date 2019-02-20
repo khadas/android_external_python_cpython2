@@ -81,6 +81,9 @@ extern void initpyexpat(void);
 extern void init_sqlite3(void);
 extern void init_ctypes(void);
 extern void init_ctypes_test(void);
+#ifdef __APPLE__
+extern void init_scproxy(void);
+#endif
 
 /* -- ADDMODULE MARKER 1 -- */
 
@@ -150,6 +153,9 @@ struct _inittab _PyImport_Inittab[] = {
     {"_sqlite3", init_sqlite3},
     {"_ctypes", init_ctypes},
     {"_ctypes_test", init_ctypes_test},
+#ifdef __APPLE__
+    {"_scproxy", init_scproxy},
+#endif
 
 /* -- ADDMODULE MARKER 2 -- */
 

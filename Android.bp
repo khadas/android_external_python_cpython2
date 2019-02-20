@@ -237,6 +237,12 @@ cc_defaults {
         linux_glibc_x86_64: {
             host_ldlibs: ["-lutil"],
         },
+        darwin: {
+            host_ldlibs: [
+                "-framework SystemConfiguration",
+                "-framework CoreFoundation",
+            ],
+        },
         host: {
             static_libs: ["libsqlite"],
         },
@@ -331,6 +337,11 @@ cc_library_static {
         "py2-c-module-_ctypes_test",
         "py2-c-module-_ctypes",
     ],
+    target: {
+        darwin: {
+            whole_static_libs: ["py2-c-module-_scproxy"],
+        },
+    },
 }
 
 cc_binary {
@@ -934,6 +945,17 @@ cc_library_static {
             srcs: [
                 "Modules/_ctypes/libffi/src/x86/unix64.S",
             ],
+        },
+    },
+}
+
+cc_library_host_static {
+    name: "py2-c-module-_scproxy",
+    defaults: ["py2-interp-defaults"],
+    srcs: ["Mac/Modules/_scproxy.c"],
+    target: {
+        linux: {
+            enabled: false,
         },
     },
 }
