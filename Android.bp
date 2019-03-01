@@ -48,6 +48,11 @@ cc_defaults {
         android_x86: {
             local_include_dirs: ["android_x86/pyconfig"],
         },
+        linux_bionic: {
+            // NB linux_bionic is a 'host' architecture but it uses the bionic libc like 'android'
+            // targets so use the android pyconfig.
+            local_include_dirs: ["android_x86_64/pyconfig"],
+        },
         android_x86_64: {
             local_include_dirs: ["android_x86_64/pyconfig"],
         },
@@ -834,12 +839,7 @@ cc_library_static {
         "Modules/_sqlite/util.c",
     ],
     target: {
-        linux_glibc_x86_64: {
-            static_libs: [
-                "libsqlite",
-            ],
-        },
-        darwin_x86_64: {
+        host: {
             static_libs: [
                 "libsqlite",
             ],
@@ -926,6 +926,12 @@ cc_library_static {
             srcs: [
                 "Modules/_ctypes/libffi/src/x86/darwin.S",
                 "Modules/_ctypes/libffi/src/x86/darwin64.S",
+            ],
+        },
+        linux_bionic: {
+            local_include_dirs: ["linux_x86_64/libffi"],
+            srcs: [
+                "Modules/_ctypes/libffi/src/x86/unix64.S",
             ],
         },
         linux_glibc_x86_64: {
