@@ -233,7 +233,7 @@ cc_defaults {
     ],
     static_libs: [
         "libbase",
-        "libcrypto",
+        "libcrypto_static",
         "libexpat",
         "libssl",
         "libz",
@@ -583,7 +583,7 @@ cc_library_static {
     cflags: ["-Wno-incompatible-pointer-types-discards-qualifiers"],
     static_libs: [
         "libssl",
-        "libcrypto",
+        "libcrypto_static",
     ],
 }
 
