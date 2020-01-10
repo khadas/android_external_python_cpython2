@@ -235,6 +235,7 @@ cc_defaults {
         "libbase",
         "libcrypto_static",
         "libexpat",
+        "liblog",
         "libssl",
         "libz",
     ],
